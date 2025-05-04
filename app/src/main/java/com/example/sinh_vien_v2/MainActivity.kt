@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.title = "Danh sách sinh viên"
+        
+        // Hide action bar to use our custom title
+        supportActionBar?.hide()
 
         val recyclerView = findViewById<RecyclerView>(R.id.list_students)
         studentAdapter = StudentAdapter(studentList) { student, position, anchorView ->
@@ -32,6 +36,13 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = studentAdapter
+        
+        // Setup FAB for adding students
+        val fabAdd = findViewById<FloatingActionButton>(R.id.fab_add)
+        fabAdd.setOnClickListener {
+            val intent = Intent(this, AddStudentActivity::class.java)
+            startActivityForResult(intent, ADD_STUDENT_REQUEST)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
